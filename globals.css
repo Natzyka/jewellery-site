@@ -1,65 +1,26 @@
-@keyframes flashBg {
-  0% { background: black; }
-  20% { background: white; }
-  40% { background: black; }
-  60% { background: white; }
-  80% { background: black; }
-  100% { background: white; }
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
-.animate-flashBg {
-  animation: flashBg 3s steps(1) forwards;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-@keyframes invertLogo {
-  0%, 40%, 80% { filter: invert(1); }
-  20%, 60%, 100% { filter: invert(0); }
-}
-
-.animate-invertLogo {
-  animation: invertLogo 3s steps(1) forwards;
-}
-
-@keyframes flashBg {
-  0% { background: black; }
-  100% { background: white; }
-}
-
-.animate-flashBg {
-  animation: flashBg 0.3s steps(1) infinite;
-}
-
-@font-face {
-  font-family: "Somniferia";
-  src: url("public/fonts/font1.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "SomniferiaItalic";
-  src: url("/fonts/font2.woff") format("woff");
-  font-weight: normal;
-  font-style: italic;
-}
-
-.font-somniferia {
-  font-family: "Somniferia", serif;
-}
-
-.font-somniferia-italic {
-  font-family: "SomniferiaItalic", serif;
-}
-
-@keyframes spinSlow {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
   }
 }
 
-.animate-spin-slow {
-  animation: spinSlow 40s linear infinite;
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
