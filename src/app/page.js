@@ -38,7 +38,6 @@ const IMAGE_LIST = [
   "/teeth27.png",
   "/devil4.png",
   "/earring9.png",
-  "/sculpture7.png",
   "/earring12.png",
   
   "/sculpture3.png",
