@@ -9,46 +9,58 @@ const cinzel = Cinzel({
 });
 
 const IMAGE_LIST = [
-  "/ring2.png",
-  "/image11.png",
+  "/size2.png",
+  
   "/teeth1.png",
   "/earring1.png",
   "/gemrings.png",
   "/earring14.png",
-  "/image1.png",
   "/teeth15.png",
+  "/size3.png",
+  
   "/pinterest2.png",
+  "/teeth20.png",
   "/pinterest3.png",
-  "/image13.png",
   "/earring16.png",
+  "/teeth21.png",
+  "/size4.png",
   "/snake.png",
   "/earring3.png",
-  "/image3.png",
-  "/earring7.png",
+  "/size.png",
+  "/size1.png",
+  
   "/pinterest5.png",
   "/earring8.png",
-  "/image6.png",
-  "/earring9.png",
+  
+  
+  "/teeth23.png",
   "/earring10.png",
+  "/teeth27.png",
   "/devil4.png",
+  "/earring9.png",
   "/sculpture7.png",
   "/earring12.png",
+  
   "/sculpture3.png",
+  "/teeth22.png",
   "/sculpture4.png",
   "/sculpture5.png",
-  "/image16.png",
+  "/ring2.png",
+  
+  "/teeth24.png",
+  "/earring7.png",
   "/sculpture6.png",
   "/earring17.png",
   "/teeth18.png",
-  "/teeth19.png",
-  "/image2.png",
-  "/teeth20.png",
-  "/teeth21.png",
-  "/teeth22.png",
-  "/image18.png",
-  "/teeth23.png",
-  "/teeth24.png",
-  "/teeth27.png",
+  
+  
+  
+  
+  
+  
+  
+  
+  
 ];
 
 const TOTAL_ROWS = 11;
@@ -456,7 +468,7 @@ export default function Home() {
             <img
               src={introFrame % 2 === 0 ? "/logo-white.png" : "/logo-black.png"}
               alt="Brand logo"
-              className="w-[min(78vw,600px)]"
+              className={viewportLayout.logoClass}
             />
           </div>
 
