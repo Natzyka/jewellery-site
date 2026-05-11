@@ -79,8 +79,8 @@ function getCenterFocus(x, y, width, height) {
   const falloff = Math.pow(Math.max(0, 1 - normalized), 0.42);
   const isDesktopViewport =
     typeof window !== "undefined" ? window.innerWidth > 900 : true;
-  const baseScale = isDesktopViewport ? 0.72 : 0.8;
-  const bulgeStrength = isDesktopViewport ? 1.34 : 0.9;
+  const baseScale = isDesktopViewport ? 0.72 : 0.74;
+  const bulgeStrength = isDesktopViewport ? 1.34 : 1.08;
 
   return {
     scale: baseScale + falloff * bulgeStrength,
@@ -128,8 +128,8 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-[52%] h-[104svh] w-[112vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: STEP_X,
-      stepY: STEP_Y,
+      stepX: 336,
+      stepY: 258,
       rowStagger: 0,
       logoClass: "w-[min(72vw,360px)]",
       signupButtonClass:
@@ -141,8 +141,8 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-1/2 h-[102vh] w-[104vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: STEP_X,
-      stepY: STEP_Y,
+      stepX: 364,
+      stepY: 280,
       rowStagger: 0,
       logoClass: "w-[min(64vw,440px)]",
       signupButtonClass:
