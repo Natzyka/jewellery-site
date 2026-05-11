@@ -9,55 +9,41 @@ const cinzel = Cinzel({
 });
 
 const IMAGE_LIST = [
-  "/earring1.png",
-  
+  "/size4.png",
+  "/razor.png",
   "/teeth1.png",
   "/size2.png",
-  "/gemrings.png",
+  "/snake1.png",
   "/earring14.png",
   "/teeth15.png",
   "/size3.png",
-  
-  "/pinterest2.png",
-  "/teeth20.png",
-  "/pinterest3.png",
-  "/earring16.png",
-  "/teeth21.png",
-  "/size4.png",
-  "/snake1.png",
-  "/earring3.png",
+  "/earring17.png",
+  "/teeth23.png",
+  "/earring9.png",
+  "/sculpture5.png",
   "/size.png",
+  "/devil4.png",
+  "/pinterest2.png",
+  "/teeth22.png",
+  "/earring12.png",
+  "/earring3.png",
+  "/pinterest6.png",
   "/size1.png",
-  "/razor.png",
+  "/sculpture3.png",
   "/pinterest5.png",
   "/earring8.png",
-  
-  
-  "/teeth23.png",
   "/earring10.png",
-  "/devil4.png",
-  "/earring9.png",
-  "/earring12.png",
-  "/pinterest6.png",
-  "/sculpture3.png",
-  "/teeth22.png",
+  "/sculpture6.png",
+  "/pinterest3.png",
+  "/earring16.png",
+  "/earring1.png",
+  "/teeth20.png",
   "/sculpture4.png",
-  "/sculpture5.png",
-  
   "/teeth24.png",
   "/earring7.png",
-  "/sculpture6.png",
-  "/earring17.png",
-  "/teeth18.png",
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  "/teeth21.png",
+  "/gemrings.png",
+  "/teeth18.png"
 ];
 
 const TOTAL_ROWS = 11;
@@ -66,8 +52,8 @@ const STEP_X = 408;
 const STEP_Y = 296;
 const ROW_STAGGER = 0;
 const BASE_SIZE = 146;
-const DRIFT_X = 0.012;
-const DRIFT_Y = 0.008;
+const DRIFT_X = 0.018;
+const DRIFT_Y = 0.012;
 const DEFAULT_VIEWPORT_LAYOUT = {
   stageClass:
     "absolute left-1/2 top-1/2 h-[98vh] w-[98vw] max-w-[1720px] -translate-x-1/2 -translate-y-1/2",
@@ -119,7 +105,14 @@ function getItemSize(src, row, column) {
 }
 
 function getResponsiveScale() {
-  return 1; // same size everywhere
+  if (typeof window === "undefined") return 1;
+
+  const viewportWidth = window.innerWidth;
+
+  if (viewportWidth <= 640) return 0.78;
+  if (viewportWidth <= 900) return 0.88;
+
+  return 1;
 }
 
 function getViewportLayout() {
@@ -131,8 +124,8 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-[52%] h-[104svh] w-[112vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: 320,
-      stepY: 230,
+      stepX: STEP_X,
+      stepY: STEP_Y,
       rowStagger: 0,
       logoClass: "w-[min(72vw,360px)]",
       signupButtonClass:
@@ -144,8 +137,8 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-1/2 h-[102vh] w-[104vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: 356,
-      stepY: 256,
+      stepX: STEP_X,
+      stepY: STEP_Y,
       rowStagger: 0,
       logoClass: "w-[min(64vw,440px)]",
       signupButtonClass:
@@ -275,8 +268,13 @@ export default function Home() {
       offsetRef.current.x += velocityRef.current.x;
       offsetRef.current.y += velocityRef.current.y;
 
-      velocityRef.current.x *= dragRef.current ? 0.9 : 0.975;
-      velocityRef.current.y *= dragRef.current ? 0.9 : 0.975;
+      const isMobileViewport =
+        typeof window !== "undefined" && window.innerWidth <= 900;
+      const dragDamping = isMobileViewport ? 0.94 : 0.9;
+      const idleDamping = isMobileViewport ? 0.985 : 0.975;
+
+      velocityRef.current.x *= dragRef.current ? dragDamping : idleDamping;
+      velocityRef.current.y *= dragRef.current ? dragDamping : idleDamping;
 
       const scrollX = wrap(offsetRef.current.x, -bounds.width / 2, bounds.width / 2);
       const scrollY = wrap(offsetRef.current.y, -bounds.height / 2, bounds.height / 2);
@@ -343,9 +341,12 @@ export default function Home() {
     const dx = x - lastPointerRef.current.x;
     const dy = y - lastPointerRef.current.y;
 
+    const dragStrength =
+      typeof window !== "undefined" && window.innerWidth <= 900 ? 0.58 : 0.3;
+
     velocityRef.current = {
-      x: dx * 0.3,
-      y: dy * 0.3,
+      x: dx * dragStrength,
+      y: dy * dragStrength,
     };
     autoMotionResumeAtRef.current = Date.now() + 5000;
 
