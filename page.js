@@ -9,10 +9,10 @@ const cinzel = Cinzel({
 });
 
 const IMAGE_LIST = [
-  "/size2.png",
+  "/earring1.png",
   
   "/teeth1.png",
-  "/earring1.png",
+  "/size2.png",
   "/gemrings.png",
   "/earring14.png",
   "/teeth15.png",
@@ -24,44 +24,50 @@ const IMAGE_LIST = [
   "/earring16.png",
   "/teeth21.png",
   "/size4.png",
-  "/snake.png",
+  "/snake1.png",
   "/earring3.png",
   "/size.png",
   "/size1.png",
-  
+  "/razor.png",
   "/pinterest5.png",
   "/earring8.png",
   
   
   "/teeth23.png",
   "/earring10.png",
-  "/teeth27.png",
   "/devil4.png",
   "/earring9.png",
   "/earring12.png",
-  
+  "/pinterest6.png",
   "/sculpture3.png",
   "/teeth22.png",
   "/sculpture4.png",
   "/sculpture5.png",
-  "/ring2.png",
   
   "/teeth24.png",
   "/earring7.png",
   "/sculpture6.png",
   "/earring17.png",
-  "/teeth18.png"
+  "/teeth18.png",
+  
+  
+  
+  
+  
+  
+  
+  
+  
 ];
 
 const TOTAL_ROWS = 11;
 const TOTAL_COLUMNS = 11;
-const STEP_X = 276;
-const STEP_Y = 214;
-const ROW_STAGGER = 86;
-const BASE_SIZE = 166;
+const STEP_X = 408;
+const STEP_Y = 296;
+const ROW_STAGGER = 0;
+const BASE_SIZE = 146;
 const DRIFT_X = 0.012;
 const DRIFT_Y = 0.008;
-const TILE_OFFSETS = [-1, 0, 1];
 const DEFAULT_VIEWPORT_LAYOUT = {
   stageClass:
     "absolute left-1/2 top-1/2 h-[98vh] w-[98vw] max-w-[1720px] -translate-x-1/2 -translate-y-1/2",
@@ -79,18 +85,16 @@ function wrap(value, min, max) {
   return ((((value - min) % range) + range) % range) + min;
 }
 
-function squareBulge(x, y, width, height) {
+function getCenterFocus(x, y, width, height) {
   const nx = x / (width / 2);
   const ny = y / (height / 2);
-  const radius = Math.max(Math.abs(nx), Math.abs(ny));
-  const safeRadius = Math.max(radius, 0.001);
-  const eased = 1 - Math.pow(Math.min(radius, 1), 1.7);
-  const bulge = 1 + eased * 0.28;
+  const distance = Math.sqrt(nx * nx + ny * ny);
+  const normalized = Math.min(distance, 1.02) / 1.02;
+  const falloff = Math.pow(Math.max(0, 1 - normalized), 0.42);
 
   return {
-    x: (nx / safeRadius) * (safeRadius * bulge) * (width / 2),
-    y: (ny / safeRadius) * (safeRadius * bulge) * (height / 2),
-    depth: eased,
+    scale: 0.8 + falloff * 0.9,
+    opacity: 0.36 + falloff * 0.64,
   };
 }
 
@@ -108,23 +112,14 @@ function getItemSize(src, row, column) {
   }
 
   if (isWideVisual) {
-    return BASE_SIZE + 20 + variance;
+    return BASE_SIZE + 14 + variance;
   }
 
-  return BASE_SIZE + 8 + variance;
+  return BASE_SIZE + 4 + variance;
 }
 
 function getResponsiveScale() {
-  if (typeof window === "undefined") return 1;
-
-  const viewportWidth = window.innerWidth;
-
-  if (viewportWidth <= 640) return 1.18;
-  if (viewportWidth <= 900) return 1.08;
-  if (viewportWidth >= 1600) return 0.88;
-  if (viewportWidth >= 1280) return 0.94;
-
-  return 1;
+  return 1; // same size everywhere
 }
 
 function getViewportLayout() {
@@ -136,9 +131,9 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-[52%] h-[104svh] w-[112vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: 226,
-      stepY: 180,
-      rowStagger: 64,
+      stepX: 320,
+      stepY: 230,
+      rowStagger: 0,
       logoClass: "w-[min(72vw,360px)]",
       signupButtonClass:
         "fixed bottom-8 left-1/2 z-30 -translate-x-1/2 border border-black bg-white px-5 py-2 text-[11px] tracking-[0.28em] text-black mix-blend-difference",
@@ -149,9 +144,9 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-1/2 h-[102vh] w-[104vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: 244,
-      stepY: 192,
-      rowStagger: 72,
+      stepX: 356,
+      stepY: 256,
+      rowStagger: 0,
       logoClass: "w-[min(64vw,440px)]",
       signupButtonClass:
         "fixed bottom-10 left-1/2 z-30 -translate-x-1/2 border border-black bg-white px-4 py-1.5 text-[10px] tracking-[0.3em] text-black mix-blend-difference",
@@ -216,17 +211,10 @@ export default function Home() {
   }, []);
 
   const baseItems = buildBaseItems();
-  const items = TILE_OFFSETS.flatMap((tileY) =>
-    TILE_OFFSETS.flatMap((tileX) =>
-      baseItems.map((item) => ({
-        ...item,
-        id: `${item.id}-${tileX}-${tileY}`,
-        size: item.size * sizeScale,
-        tileX,
-        tileY,
-      }))
-    )
-  );
+  const items = baseItems.map((item) => ({
+    ...item,
+    size: item.size * sizeScale,
+  }));
 
   useEffect(() => {
     let count = 0;
@@ -301,34 +289,32 @@ export default function Home() {
         const baseX =
           item.column * viewportLayout.stepX +
           (item.row % 2 === 0 ? -viewportLayout.rowStagger : viewportLayout.rowStagger);
-        const baseY =
-          item.row * viewportLayout.stepY + (item.column % 2 === 0 ? -8 : 8);
+        const baseY = item.row * viewportLayout.stepY;
+        const centeredBaseX = baseX - bounds.width / 2;
+        const centeredBaseY = baseY - bounds.height / 2;
 
-        const centeredX =
-          baseX - bounds.width / 2 + item.tileX * bounds.width + scrollX;
-        const centeredY =
-          baseY - bounds.height / 2 + item.tileY * bounds.height + scrollY;
-        const diagonalX = centeredX + centeredY * 0.14;
-        const diagonalY = centeredY - centeredX * 0.08;
-        const warped = squareBulge(
-          diagonalX,
-          diagonalY,
-          bounds.width * 1.02,
-          bounds.height * 1.01
+        const wrappedX = wrap(
+          centeredBaseX + scrollX,
+          -bounds.width / 2,
+          bounds.width / 2
         );
-        const scale = 0.84 + warped.depth * 0.32;
-        const opacity = 0.42 + warped.depth * 0.58;
-        const swayX = velocityRef.current.x * (0.22 + warped.depth * 0.06);
-        const swayY = velocityRef.current.y * (0.22 + warped.depth * 0.06);
-        const tilt = velocityRef.current.x * 0.4 - velocityRef.current.y * 0.22;
-        const curve = Math.sin((item.row - item.column) * 0.7) * 3.5 * warped.depth;
+        const wrappedY = wrap(
+          centeredBaseY + scrollY,
+          -bounds.height / 2,
+          bounds.height / 2
+        );
+        const focus = getCenterFocus(
+          wrappedX,
+          wrappedY,
+          bounds.width * 0.62,
+          bounds.height * 0.62
+        );
 
         node.style.transform = `
-          translate3d(${warped.x + swayX}px, ${warped.y + swayY + curve}px, 0)
-          rotate(${tilt}deg)
-          scale(${scale})
+          translate3d(${wrappedX}px, ${wrappedY}px, 0)
+          scale(${focus.scale})
         `;
-        node.style.opacity = `${opacity}`;
+        node.style.opacity = `${focus.opacity}`;
       });
 
       animationRef.current = requestAnimationFrame(animate);
@@ -458,7 +444,7 @@ export default function Home() {
             <img
               src={introFrame % 2 === 0 ? "/logo-white.png" : "/logo-black.png"}
               alt="Brand logo"
-              className="w-[min(78vw,600px)]"
+              className={viewportLayout.logoClass}
             />
           </div>
 
