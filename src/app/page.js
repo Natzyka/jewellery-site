@@ -51,7 +51,7 @@ const TOTAL_COLUMNS = 11;
 const STEP_X = 408;
 const STEP_Y = 296;
 const ROW_STAGGER = 0;
-const BASE_SIZE = 146;
+const BASE_SIZE = 112;
 const DRIFT_X = 0.018;
 const DRIFT_Y = 0.012;
 const DEFAULT_VIEWPORT_LAYOUT = {
@@ -77,9 +77,13 @@ function getCenterFocus(x, y, width, height) {
   const distance = Math.sqrt(nx * nx + ny * ny);
   const normalized = Math.min(distance, 1.02) / 1.02;
   const falloff = Math.pow(Math.max(0, 1 - normalized), 0.42);
+  const isDesktopViewport =
+    typeof window !== "undefined" ? window.innerWidth > 900 : true;
+  const baseScale = isDesktopViewport ? 0.72 : 0.8;
+  const bulgeStrength = isDesktopViewport ? 1.34 : 0.9;
 
   return {
-    scale: 0.8 + falloff * 0.9,
+    scale: baseScale + falloff * bulgeStrength,
     opacity: 0.36 + falloff * 0.64,
   };
 }
@@ -98,10 +102,10 @@ function getItemSize(src, row, column) {
   }
 
   if (isWideVisual) {
-    return BASE_SIZE + 14 + variance;
+    return BASE_SIZE + 10 + variance;
   }
 
-  return BASE_SIZE + 4 + variance;
+  return BASE_SIZE + 2 + variance;
 }
 
 function getResponsiveScale() {
