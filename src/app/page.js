@@ -49,7 +49,7 @@ const IMAGE_LIST = [
 const TOTAL_ROWS = 11;
 const TOTAL_COLUMNS = 11;
 const STEP_X = 408;
-const STEP_Y = 296;
+const STEP_Y = 278;
 const ROW_STAGGER = 0;
 const BASE_SIZE = 112;
 const DRIFT_X = 0.018;
@@ -129,7 +129,7 @@ function getViewportLayout() {
       stageClass:
         "absolute left-1/2 top-[52%] h-[104svh] w-[112vw] max-w-none -translate-x-1/2 -translate-y-1/2",
       stepX: 336,
-      stepY: 258,
+      stepY: 242,
       rowStagger: 0,
       logoClass: "w-[min(72vw,360px)]",
       signupButtonClass:
@@ -142,7 +142,7 @@ function getViewportLayout() {
       stageClass:
         "absolute left-1/2 top-1/2 h-[102vh] w-[104vw] max-w-none -translate-x-1/2 -translate-y-1/2",
       stepX: 364,
-      stepY: 280,
+      stepY: 262,
       rowStagger: 0,
       logoClass: "w-[min(64vw,440px)]",
       signupButtonClass:
