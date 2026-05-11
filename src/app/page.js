@@ -12,7 +12,7 @@ const IMAGE_LIST = [
   "/size4.png",
   "/razor.png",
   "/teeth1.png",
-  "/size2.png",
+  "/pinterest2.png",
   "/snake1.png",
   "/earring14.png",
   "/teeth15.png",
@@ -23,7 +23,7 @@ const IMAGE_LIST = [
   "/sculpture5.png",
   "/size.png",
   "/devil4.png",
-  "/pinterest2.png",
+  "/size2.png",
   "/teeth22.png",
   "/earring12.png",
   "/earring3.png",
@@ -49,7 +49,7 @@ const IMAGE_LIST = [
 const TOTAL_ROWS = 11;
 const TOTAL_COLUMNS = 11;
 const STEP_X = 408;
-const STEP_Y = 278;
+const STEP_Y = 236;
 const ROW_STAGGER = 0;
 const BASE_SIZE = 112;
 const DRIFT_X = 0.018;
@@ -129,7 +129,7 @@ function getViewportLayout() {
       stageClass:
         "absolute left-1/2 top-[52%] h-[104svh] w-[112vw] max-w-none -translate-x-1/2 -translate-y-1/2",
       stepX: 336,
-      stepY: 242,
+      stepY: 208,
       rowStagger: 0,
       logoClass: "w-[min(72vw,360px)]",
       signupButtonClass:
@@ -142,7 +142,7 @@ function getViewportLayout() {
       stageClass:
         "absolute left-1/2 top-1/2 h-[102vh] w-[104vw] max-w-none -translate-x-1/2 -translate-y-1/2",
       stepX: 364,
-      stepY: 262,
+      stepY: 224,
       rowStagger: 0,
       logoClass: "w-[min(64vw,440px)]",
       signupButtonClass:
