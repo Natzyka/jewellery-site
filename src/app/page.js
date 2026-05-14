@@ -2,11 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Cinzel } from "next/font/google";
+import { useRouter } from "next/navigation";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
+
+
 
 const IMAGE_LIST = [
   "/size4.png",
@@ -64,6 +67,8 @@ const DEFAULT_VIEWPORT_LAYOUT = {
   signupButtonClass:
     "fixed bottom-12 left-1/2 z-30 -translate-x-1/2 border border-black bg-white px-4 py-1.5 text-[10px] tracking-[0.32em] text-black mix-blend-difference",
 };
+
+
 
 function wrap(value, min, max) {
   const range = max - min;
@@ -170,6 +175,7 @@ function buildBaseItems() {
 }
 
 export default function Home() {
+  const router = useRouter();
   const stageRef = useRef(null);
   const dragRef = useRef(false);
   const lastPointerRef = useRef({ x: 0, y: 0 });
@@ -179,6 +185,7 @@ export default function Home() {
   const autoMotionResumeAtRef = useRef(0);
   const backgroundTimeoutRef = useRef(null);
   const [intro, setIntro] = useState(true);
+  const [stage, setStage] = useState("landing");
   const [introFrame, setIntroFrame] = useState(0);
   const [darkBg, setDarkBg] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
@@ -523,12 +530,12 @@ export default function Home() {
       </div>
 
       <button
-        type="button"
-        onClick={() => setPanelOpen(true)}
-        className={viewportLayout.signupButtonClass}
-      >
-        SIGN UP
-      </button>
+  type="button"
+  onClick={() => router.push("/landing")}
+  className={viewportLayout.signupButtonClass}
+>
+  ENTER
+</button>
 
       <div
         className={`fixed inset-0 z-40 transition-opacity duration-500 ${
