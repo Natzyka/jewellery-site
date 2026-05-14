@@ -103,7 +103,7 @@ export default function ScrollingImages({ onScrollStateChange }) {
       scrollTimeoutRef.current = setTimeout(() => {
         setIsScrolling(false);
         onScrollStateChange?.(false);
-      }, 5000);
+      }, 120);
     };
 
     window.addEventListener("scroll", handleScroll);
