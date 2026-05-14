@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Cinzel } from "next/font/google";
-import SmoothScroll from "../../components/SmoothScroll";
-import ScrollingImages from "../../components/ScrollingImages";
+import SmoothScroll from "../components/SmoothScroll";
+import ScrollingImages from "../components/ScrollingImages";
 
 
 const cinzel = Cinzel({
