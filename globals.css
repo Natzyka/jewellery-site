@@ -1,26 +1,86 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@keyframes flashBg {
+  0% { background: black; }
+  20% { background: white; }
+  40% { background: black; }
+  60% { background: white; }
+  80% { background: black; }
+  100% { background: white; }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.animate-flashBg {
+  animation: flashBg 3s steps(1) forwards;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes invertLogo {
+  0%, 40%, 80% { filter: invert(1); }
+  20%, 60%, 100% { filter: invert(0); }
+}
+
+.animate-invertLogo {
+  animation: invertLogo 3s steps(1) forwards;
+}
+
+@keyframes flashBg {
+  0% { background: black; }
+  100% { background: white; }
+}
+
+.animate-flashBg {
+  animation: flashBg 0.3s steps(1) infinite;
+}
+
+
+
+
+
+@keyframes spinSlow {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
   }
 }
 
+.animate-spin-slow {
+  animation: spinSlow 40s linear infinite;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
+  width: 100%;
+  height: 100%;
+  background: white;
+  color: black;
+  overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+.logo-font {
+  font-family: "Cinzel", serif;
+}
+
+html,
+body {
+  background: #f5f4f0;
+  overscroll-behavior: none;
 }
