@@ -6,6 +6,7 @@ export default function ScrollingImages({ onScrollStateChange }) {
   const containerRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimeoutRef = useRef(null);
+  const scrollingStateRef = useRef(false);
   const SCROLL_SPEED = 666;
 
   const images = [
@@ -93,14 +94,18 @@ export default function ScrollingImages({ onScrollStateChange }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolling(true);
-      onScrollStateChange?.(true);
+      if (!scrollingStateRef.current) {
+        scrollingStateRef.current = true;
+        setIsScrolling(true);
+        onScrollStateChange?.(true);
+      }
       
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
       
       scrollTimeoutRef.current = setTimeout(() => {
+        scrollingStateRef.current = false;
         setIsScrolling(false);
         onScrollStateChange?.(false);
       }, 120);
@@ -130,9 +135,6 @@ export default function ScrollingImages({ onScrollStateChange }) {
         .scroll-images {
           transition: background 0.3s ease;
         }
-        .scroll-images.paused {
-          animation-play-state: paused;
-        }
         .scroll-images.scrolling {
           background: black;
         }
@@ -148,7 +150,7 @@ export default function ScrollingImages({ onScrollStateChange }) {
       <div
         ref={containerRef}
         className={`relative z-0 flex flex-col items-center gap-[56px] py-[40px] scroll-images ${
-          isScrolling ? "paused scrolling" : ""
+          isScrolling ? "scrolling" : ""
         }`}
       >
         {[...images, ...images].map((src, index) => (
