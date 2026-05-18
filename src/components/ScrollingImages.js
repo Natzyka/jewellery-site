@@ -145,17 +145,17 @@ export default function ScrollingImages({ onScrollStateChange }) {
           }
         }
         .scroll-images {
-          will-change: transform, background-color, filter;
-          transition: background 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          will-change: transform;
           transform: translateZ(0);
           backface-visibility: hidden;
         }
-        .scroll-images.scrolling {
-          background: black;
-          filter: invert(1);
-        }
         .scroll-images img {
+          transition: filter 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+          will-change: filter;
           backface-visibility: hidden;
+        }
+        .scroll-images.scrolling img {
+          filter: invert(1);
         }
         .scroll-images{
           animation: scroll ${SCROLL_SPEED}s linear infinite;
