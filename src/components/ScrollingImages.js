@@ -138,24 +138,24 @@ export default function ScrollingImages({ onScrollStateChange }) {
       <style>{`
         @keyframes scroll {
           0% {
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translateY(-50%);
+            transform: translate3d(0, -50%, 0);
           }
         }
         .scroll-images {
+          will-change: transform, background-color, filter;
           transition: background 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
         .scroll-images.scrolling {
           background: black;
+          filter: invert(1);
         }
         .scroll-images img {
-          transition: filter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-          will-change: filter;
-        }
-        .scroll-images.scrolling img {
-          filter: invert(1);
+          backface-visibility: hidden;
         }
         .scroll-images{
           animation: scroll ${SCROLL_SPEED}s linear infinite;
