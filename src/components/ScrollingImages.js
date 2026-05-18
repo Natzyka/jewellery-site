@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 export default function ScrollingImages({ onScrollStateChange }) {
   const containerRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
-  const scrollTimeoutRef = useRef(null);
   const scrollingStateRef = useRef(false);
+  const scrollStateCallbackRef = useRef(onScrollStateChange);
   const SCROLL_SPEED = 666;
 
   const images = [
@@ -93,30 +93,42 @@ export default function ScrollingImages({ onScrollStateChange }) {
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!scrollingStateRef.current) {
-        scrollingStateRef.current = true;
-        setIsScrolling(true);
-        onScrollStateChange?.(true);
-      }
-      
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      
-      scrollTimeoutRef.current = setTimeout(() => {
-        scrollingStateRef.current = false;
-        setIsScrolling(false);
-        onScrollStateChange?.(false);
-      }, 120);
+    scrollStateCallbackRef.current = onScrollStateChange;
+  }, [onScrollStateChange]);
+
+  useEffect(() => {
+    let animationFrame = null;
+    let previousY = window.scrollY;
+    let lastMovementAt = performance.now();
+
+    const setScrollingState = (nextState) => {
+      if (scrollingStateRef.current === nextState) return;
+      scrollingStateRef.current = nextState;
+      setIsScrolling(nextState);
+      scrollStateCallbackRef.current?.(nextState);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const monitorScrollMotion = () => {
+      const currentY = window.scrollY;
+      const now = performance.now();
+      const delta = Math.abs(currentY - previousY);
+
+      if (delta > 0.08) {
+        lastMovementAt = now;
+        setScrollingState(true);
+      } else if (scrollingStateRef.current && now - lastMovementAt > 180) {
+        setScrollingState(false);
+      }
+
+      previousY = currentY;
+      animationFrame = window.requestAnimationFrame(monitorScrollMotion);
+    };
+
+    animationFrame = window.requestAnimationFrame(monitorScrollMotion);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
       }
     };
   }, []);
@@ -133,14 +145,17 @@ export default function ScrollingImages({ onScrollStateChange }) {
           }
         }
         .scroll-images {
-          transition: background 0.3s ease;
+          transition: background 0.55s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .scroll-images.scrolling {
           background: black;
         }
+        .scroll-images img {
+          transition: filter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          will-change: filter;
+        }
         .scroll-images.scrolling img {
           filter: invert(1);
-          transition: filter 0.3s ease;
         }
         .scroll-images{
           animation: scroll ${SCROLL_SPEED}s linear infinite;
@@ -155,10 +170,11 @@ export default function ScrollingImages({ onScrollStateChange }) {
       >
         {[...images, ...images].map((src, index) => (
           <img
-  key={`${src}-${index}`}
-  src={src}
-  className="w-[88vw] sm:w-[58vw] lg:w-[48vw] object-cover select-none"
-/>
+            key={`${src}-${index}`}
+            src={src}
+            alt=""
+            className="w-[88vw] sm:w-[58vw] lg:w-[48vw] object-cover select-none"
+          />
         ))}
       </div>
     </>
