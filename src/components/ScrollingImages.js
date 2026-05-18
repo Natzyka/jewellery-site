@@ -59,7 +59,6 @@ export default function ScrollingImages({ onScrollStateChange }) {
     "/21.jpeg",
     "/22.jpeg",
     "/23.jpeg",
-    "/24.jpeg",
     
   ];
 
