@@ -1,105 +1,94 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function ScrollingImages({ onScrollStateChange }) {
-  const containerRef = useRef(null);
+const IMAGES = [
+  "/sculpture5.png",
+  "/image45.webp",
+  "/image1.webp",
+  "/image31.webp",
+  "/image2.webp",
+  "/image36.webp",
+  "/image51.webp",
+  "/devil4.webp",
+  "/image44.webp",
+  "/image22.webp",
+  "/image3.webp",
+  "/image37.webp",
+  "/devil2.webp",
+  "/image32.webp",
+  "/image38.webp",
+  "/image33.webp",
+  "/image5.webp",
+  "/image42.webp",
+  "/image43.webp",
+  "/devil5.webp",
+  "/image40.webp",
+  "/image34.webp",
+  "/devil6.webp",
+  "/image41.webp",
+];
+
+export default function ScrollingImages() {
   const [isScrolling, setIsScrolling] = useState(false);
-  const scrollingStateRef = useRef(false);
-  const scrollStateCallbackRef = useRef(onScrollStateChange);
   const SCROLL_SPEED = 666;
 
-  const images = [
-    "/sculpture5.png",
-    "/image45.jpeg",
-    "/image1.png",
-    "/1.jpeg",
-    "/image31.png",
-    "/2.jpeg",
-     "/image2.png",
-    "/3.jpeg",
-     "/image36.png",
-    "/image51.png",
-    "/devil4.png",
-    "/4.jpeg",
-    "/5.jpeg",
-    "/6.jpeg",
-    "/devil4.png",
-    "/image44.jpeg",
-    "/image22.png",
-    "/image3.png",
-    "/image37.png",
-    "/7.jpeg",
-    "/8.jpeg",
-    "/9.jpeg",
-    "/devil2.png",
-    "/image32.png",
-    "/image38.png",
-    "/10.jpeg",
-    "/11.jpeg",
-    "/12.jpeg",
-    "/13.jpeg",
-    "/image4.png",
-    "/image33.png",
-    "/image5.png",
-    "/image42.jpeg",
-    "/image43.jpeg",
-    "/14.jpeg",
-    "/15.jpeg",
-    "/16.jpeg",
-     "/devil5.png",
-    "/image40.png",
-    "/image34.png",
-    "/17.jpeg",
-    "/18.jpeg",
-    "/devil6.png",
-    "/image41.png",
-    "/19.jpeg",
-    "/20.jpeg",
-    "/21.jpeg",
-    "/22.jpeg",
-    "/23.jpeg",
-    
-  ];
-
   useEffect(() => {
-    scrollStateCallbackRef.current = onScrollStateChange;
-  }, [onScrollStateChange]);
+    let settleTimeout = null;
 
-  useEffect(() => {
-    let animationFrame = null;
-    let previousY = window.scrollY;
-    let lastMovementAt = performance.now();
+    const markScrolling = () => {
+      setIsScrolling(true);
 
-    const setScrollingState = (nextState) => {
-      if (scrollingStateRef.current === nextState) return;
-      scrollingStateRef.current = nextState;
-      setIsScrolling(nextState);
-      scrollStateCallbackRef.current?.(nextState);
-    };
-
-    const monitorScrollMotion = () => {
-      const currentY = window.scrollY;
-      const now = performance.now();
-      const delta = Math.abs(currentY - previousY);
-
-      if (delta > 0.08) {
-        lastMovementAt = now;
-        setScrollingState(true);
-      } else if (scrollingStateRef.current && now - lastMovementAt > 180) {
-        setScrollingState(false);
+      if (settleTimeout) {
+        window.clearTimeout(settleTimeout);
       }
 
-      previousY = currentY;
-      animationFrame = window.requestAnimationFrame(monitorScrollMotion);
+      settleTimeout = window.setTimeout(() => {
+        setIsScrolling(false);
+      }, 140);
     };
 
-    animationFrame = window.requestAnimationFrame(monitorScrollMotion);
+    const handleScroll = () => {
+      markScrolling();
+    };
+
+    const handleWheel = () => {
+      markScrolling();
+    };
+
+    const handleTouchMove = () => {
+      markScrolling();
+    };
+
+    const handleKeyDown = (event) => {
+      const scrollingKeys = [
+        "ArrowDown",
+        "ArrowUp",
+        "PageDown",
+        "PageUp",
+        "Home",
+        "End",
+        " ",
+      ];
+
+      if (scrollingKeys.includes(event.key)) {
+        markScrolling();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      if (animationFrame) {
-        window.cancelAnimationFrame(animationFrame);
+      if (settleTimeout) {
+        window.clearTimeout(settleTimeout);
       }
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -119,33 +108,56 @@ export default function ScrollingImages({ onScrollStateChange }) {
           transform: translateZ(0);
           backface-visibility: hidden;
         }
-        .scroll-images img {
-          transition: filter 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-          will-change: filter;
-          backface-visibility: hidden;
+        .scroll-track {
+          animation: scroll ${SCROLL_SPEED}s linear infinite;
+          transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .scroll-images.scrolling img {
+        .scroll-track--inverted {
           filter: invert(1);
         }
-        .scroll-images{
-          animation: scroll ${SCROLL_SPEED}s linear infinite;
-          }
+        .scroll-images img {
+          backface-visibility: hidden;
+        }
+        .scroll-track--normal {
+          opacity: 0;
+        }
+        .scroll-track--inverted {
+          opacity: 1;
+        }
+        .scroll-images.scrolling .scroll-track--normal {
+          opacity: 1;
+        }
+        .scroll-images.scrolling .scroll-track--inverted {
+          opacity: 0;
+        }
       `}</style>
 
       <div
-        ref={containerRef}
         className={`relative z-0 flex flex-col items-center gap-[56px] py-[40px] scroll-images ${
           isScrolling ? "scrolling" : ""
         }`}
       >
-        {[...images, ...images].map((src, index) => (
-          <img
-            key={`${src}-${index}`}
-            src={src}
-            alt=""
-            className="w-[88vw] sm:w-[58vw] lg:w-[48vw] object-cover select-none"
-          />
-        ))}
+        <div className="absolute inset-0 z-0 flex flex-col items-center gap-[56px] py-[40px] scroll-track scroll-track--normal">
+          {[...IMAGES, ...IMAGES].map((src, index) => (
+            <img
+              key={`${src}-normal-${index}`}
+              src={src}
+              alt=""
+              className="w-[88vw] sm:w-[58vw] lg:w-[48vw] object-cover select-none"
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center gap-[56px] py-[40px] scroll-track scroll-track--inverted">
+          {[...IMAGES, ...IMAGES].map((src, index) => (
+            <img
+              key={`${src}-inverted-${index}`}
+              src={src}
+              alt=""
+              className="w-[88vw] sm:w-[58vw] lg:w-[48vw] object-cover select-none"
+            />
+          ))}
+        </div>
       </div>
     </>
   );
