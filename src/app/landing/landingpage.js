@@ -272,7 +272,7 @@ export default function LandingPage() {
     <>
   <SmoothScroll />
     
-    <main className={`relative min-h-screen w-screen ${isScrolling ? "bg-black text-white" : "bg-[#f5f4f0] text-black"}`}>
+    <main className="relative min-h-screen w-screen bg-[#f5f4f0] text-black">
 
       {/* LEFT LOGO */}
 <div
@@ -291,7 +291,7 @@ export default function LandingPage() {
  "
 >
   <img
-    src={isScrolling ? "/logo-white.png" : "/logo-black.png"}
+    src="/logo-black.png"
     alt="Studio Somniferia"
     className="
       w-[220px]
@@ -316,7 +316,7 @@ export default function LandingPage() {
   max-[720px]:translate-y-0
   max-[720px]:w-[170px]
 
-  ${isScrolling ? "text-white" : "text-black"}
+  text-black
 `}
 >
 
