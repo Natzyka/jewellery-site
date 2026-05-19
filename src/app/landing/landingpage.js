@@ -308,20 +308,13 @@ export default function LandingPage() {
   -translate-y-1/2
   text-right
   text-black
-  max-[720px]:left-1/2
-  max-[720px]:right-auto
-  max-[720px]:top-[84px]
-  max-[720px]:w-[min(78vw,280px)]
-  max-[720px]:-translate-x-1/2
-  max-[720px]:translate-y-0
-  max-[720px]:text-center
-  max-[720px]:rounded-full
-  max-[720px]:border
-  max-[720px]:border-black/10
-  max-[720px]:bg-white/70
-  max-[720px]:px-4
-  max-[720px]:py-3
-  max-[720px]:backdrop-blur-sm
+  max-[720px]:right-[16px]
+  max-[720px]:top-1/2
+  max-[720px]:w-[150px]
+  max-[720px]:translate-y-[-50%]
+  max-[720px]:text-right
+  max-[720px]:landscape:right-[18px]
+  max-[720px]:landscape:w-[170px]
 `}
 >
 
@@ -332,7 +325,8 @@ font-black
 uppercase
 tracking-[0.02em]
 
-max-[720px]:text-[15px]
+max-[720px]:text-[14px]
+max-[720px]:landscape:text-[15px]
 "
 >
           Cannes Lions
@@ -346,9 +340,9 @@ tracking-[0.18em]
 leading-[1.9]
 uppercase
 
-max-[720px]:mt-3
 max-[720px]:text-[8px]
 max-[720px]:leading-[1.65]
+max-[720px]:landscape:text-[8.5px]
 "
 >
           Pinterest
