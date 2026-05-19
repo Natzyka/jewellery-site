@@ -125,14 +125,14 @@ export default function ScrollingImages({ onScrollStateChange }) {
         .scroll-images.scrolling img {
           filter: invert(1);
         }
-        .scroll-images{
+        .scroll-images {
           animation: scroll ${SCROLL_SPEED}s linear infinite;
-          }
+        }
       `}</style>
 
       <div
         ref={containerRef}
-        className={`relative z-0 flex flex-col items-center gap-[56px] py-[40px] scroll-images ${
+        className={`relative z-0 flex flex-col items-center gap-[30px] py-[22px] sm:gap-[42px] sm:py-[30px] lg:gap-[56px] lg:py-[40px] scroll-images ${
           isScrolling ? "scrolling" : ""
         }`}
       >
@@ -141,7 +141,7 @@ export default function ScrollingImages({ onScrollStateChange }) {
             key={`${src}-${index}`}
             src={src}
             alt=""
-            className="w-[88vw] sm:w-[58vw] lg:w-[48vw] object-cover select-none"
+            className="w-[72vw] max-w-[460px] sm:w-[54vw] sm:max-w-[620px] lg:w-[44vw] lg:max-w-[760px] object-cover select-none"
           />
         ))}
       </div>

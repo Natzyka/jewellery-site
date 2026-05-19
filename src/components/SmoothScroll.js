@@ -6,6 +6,14 @@ import { useEffect } from "react";
 export default function SmoothScroll() {
 
   useEffect(() => {
+    const isTouchDevice =
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0;
+
+    if (isTouchDevice) {
+      return;
+    }
 
     const lenis = new Lenis({
       smoothWheel: true,

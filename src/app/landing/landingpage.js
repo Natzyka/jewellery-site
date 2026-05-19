@@ -205,7 +205,7 @@ function ArtistsOverlay({ isOpen, onClose, items }) {
             padding: "10px 10px 15px",
             fontWeight: 400,
             letterSpacing: "-0.25vw",
-            fontSize: "clamp(46px, 6.2vw, 90px)",
+            fontSize: "clamp(28px, 8vw, 90px)",
             lineHeight: 0.8,
             whiteSpace: "pre-wrap",
             textAlign: "center",
@@ -237,14 +237,14 @@ function ArtistsOverlay({ isOpen, onClose, items }) {
       >
         <button
           onClick={onClose}
-          className="fixed bottom-[20px] right-[20px] z-30 border border-black bg-black px-5 py-2 text-[10px] tracking-[0.25em] text-white transition-all duration-300 hover:bg-white hover:text-black"
+          className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] right-[16px] z-30 border border-black bg-black px-5 py-3 text-[10px] tracking-[0.25em] text-white transition-all duration-300 hover:bg-white hover:text-black sm:bottom-[20px] sm:right-[20px] sm:py-2"
         >
           CLOSE
         </button>
 
         <div
           ref={viewportRef}
-          className="absolute inset-0 overflow-hidden cursor-grab select-none"
+          className="absolute inset-0 overflow-hidden cursor-grab select-none touch-pan-y"
           style={{ perspective: "1200px" }}
         >
           <div
@@ -271,20 +271,18 @@ export default function LandingPage() {
     <>
   <SmoothScroll />
     
-    <main className="relative min-h-screen w-screen bg-[#f5f4f0] text-black">
+    <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#f5f4f0] text-black">
 
       {/* LEFT LOGO */}
 <div
   className="
   fixed
   z-20
-
   left-[20px]
   top-1/2
   -translate-y-1/2
-
   max-[720px]:left-1/2
-  max-[720px]:top-[20px]
+  max-[720px]:top-[18px]
   max-[720px]:-translate-x-1/2
   max-[720px]:translate-y-0
  "
@@ -295,7 +293,7 @@ export default function LandingPage() {
     className="
       w-[220px]
       sm:w-[260px]
-      max-[720px]:w-[160px]
+      max-[720px]:w-[132px]
     "
   />
 </div>
@@ -309,13 +307,21 @@ export default function LandingPage() {
   z-20
   -translate-y-1/2
   text-right
-
-  max-[720px]:top-auto
-  max-[720px]:bottom-[90px]
-  max-[720px]:translate-y-0
-  max-[720px]:w-[170px]
-
   text-black
+  max-[720px]:left-1/2
+  max-[720px]:right-auto
+  max-[720px]:top-[84px]
+  max-[720px]:w-[min(78vw,280px)]
+  max-[720px]:-translate-x-1/2
+  max-[720px]:translate-y-0
+  max-[720px]:text-center
+  max-[720px]:rounded-full
+  max-[720px]:border
+  max-[720px]:border-black/10
+  max-[720px]:bg-white/70
+  max-[720px]:px-4
+  max-[720px]:py-3
+  max-[720px]:backdrop-blur-sm
 `}
 >
 
@@ -326,7 +332,7 @@ font-black
 uppercase
 tracking-[0.02em]
 
-max-[720px]:text-[18px]
+max-[720px]:text-[15px]
 "
 >
           Cannes Lions
@@ -340,7 +346,9 @@ tracking-[0.18em]
 leading-[1.9]
 uppercase
 
-max-[720px]:text-[9px]
+max-[720px]:mt-3
+max-[720px]:text-[8px]
+max-[720px]:leading-[1.65]
 "
 >
           Pinterest
@@ -361,7 +369,7 @@ max-[720px]:text-[9px]
       {/* BOTTOM LEFT */}
       <button
         onClick={() => setPanelOpen(true)}
-        className="fixed bottom-[20px] left-[20px] z-30 border border-black bg-black px-4 py-2 text-[10px] tracking-[0.25em] text-white transition-colors duration-300 hover:bg-white hover:text-black"
+        className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-[16px] z-30 border border-black bg-black px-4 py-3 text-[10px] tracking-[0.25em] text-white transition-colors duration-300 hover:bg-white hover:text-black sm:bottom-[20px] sm:left-[20px] sm:py-2"
       >
         SIGN UP
       </button>
@@ -370,7 +378,7 @@ max-[720px]:text-[9px]
       <button
   onClick={() => setArtistsOpen(true)}
   className="
-  fixed bottom-[20px] right-[20px]
+  fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] right-[16px]
   z-30
   border border-black
   bg-black
@@ -382,6 +390,9 @@ max-[720px]:text-[9px]
   duration-300
   hover:bg-white
   hover:text-black
+  sm:bottom-[20px]
+  sm:right-[20px]
+  max-[720px]:py-3
 "
 >
   STUDIO
@@ -399,7 +410,7 @@ max-[720px]:text-[9px]
 
       {/* NEWSLETTER PANEL */}
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-full w-full max-w-[520px] flex-col bg-white text-black px-8 py-10 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-12 ${
+        className={`fixed left-0 top-0 z-50 flex h-full w-full max-w-[520px] flex-col overflow-y-auto bg-white px-6 py-8 text-black transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-12 sm:py-10 ${
           panelOpen
             ? "translate-x-0"
             : "-translate-x-full"
@@ -422,18 +433,18 @@ max-[720px]:text-[9px]
         <div className="flex flex-1 flex-col justify-center">
 
           <h2
-            className={`${cinzel.className} text-center text-[42px] leading-[0.95] tracking-[-0.04em]`}
+            className={`${cinzel.className} text-center text-[30px] leading-[0.95] tracking-[-0.04em] sm:text-[42px]`}
           >
             BE THE FIRST TO HEAR ABOUT NEW PIECES AND{" "}
             <span className="italic">STUDIO</span> NEWS.
           </h2>
 
-          <form className="mt-14 flex flex-col">
+          <form className="mt-10 flex flex-col sm:mt-14">
 
             <input
               type="email"
               placeholder="Your email address"
-              className="border-b border-black bg-transparent pb-4 text-center text-[16px] outline-none placeholder:text-[#888]"
+              className="border-b border-black bg-transparent pb-4 text-center text-[15px] outline-none placeholder:text-[#888] sm:text-[16px]"
             />
 
             <button
