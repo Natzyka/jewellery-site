@@ -2,12 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function ScrollingImages({ onScrollStateChange }) {
-  const containerRef = useRef(null);
+export default function ScrollingImages() {
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollingStateRef = useRef(false);
-  const scrollStateCallbackRef = useRef(onScrollStateChange);
-  const SCROLL_SPEED = 666;
+  const SCROLL_SPEED = 520;
 
   const images = [
     "/sculpture5.png",
@@ -61,10 +59,6 @@ export default function ScrollingImages({ onScrollStateChange }) {
   ];
 
   useEffect(() => {
-    scrollStateCallbackRef.current = onScrollStateChange;
-  }, [onScrollStateChange]);
-
-  useEffect(() => {
     let animationFrame = null;
     let previousY = window.scrollY;
     let lastMovementAt = performance.now();
@@ -73,7 +67,6 @@ export default function ScrollingImages({ onScrollStateChange }) {
       if (scrollingStateRef.current === nextState) return;
       scrollingStateRef.current = nextState;
       setIsScrolling(nextState);
-      scrollStateCallbackRef.current?.(nextState);
     };
 
     const monitorScrollMotion = () => {
@@ -113,9 +106,13 @@ export default function ScrollingImages({ onScrollStateChange }) {
           }
         }
         .scroll-images {
+          overflow: hidden;
+        }
+        .scroll-track {
           will-change: transform;
           transform: translateZ(0);
           backface-visibility: hidden;
+          animation: scroll ${SCROLL_SPEED}s linear infinite;
         }
         .scroll-images img {
           transition: filter 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -125,25 +122,46 @@ export default function ScrollingImages({ onScrollStateChange }) {
         .scroll-images.scrolling img {
           filter: invert(1);
         }
-        .scroll-images {
-          animation: scroll ${SCROLL_SPEED}s linear infinite;
+        .scroll-group {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 30px;
+          padding: 22px 0;
+        }
+        @media (min-width: 640px) {
+          .scroll-group {
+            gap: 42px;
+            padding: 30px 0;
+          }
+        }
+        @media (min-width: 1024px) {
+          .scroll-group {
+            gap: 56px;
+            padding: 40px 0;
+          }
         }
       `}</style>
 
       <div
-        ref={containerRef}
-        className={`relative z-0 flex flex-col items-center gap-[30px] py-[22px] sm:gap-[42px] sm:py-[30px] lg:gap-[56px] lg:py-[40px] scroll-images ${
+        className={`relative z-0 scroll-images ${
           isScrolling ? "scrolling" : ""
         }`}
       >
-        {[...images, ...images].map((src, index) => (
-          <img
-            key={`${src}-${index}`}
-            src={src}
-            alt=""
-            className="w-[72vw] max-w-[460px] sm:w-[54vw] sm:max-w-[620px] lg:w-[44vw] lg:max-w-[760px] object-cover select-none"
-          />
-        ))}
+        <div className="scroll-track">
+          {[0, 1].map((groupIndex) => (
+            <div key={groupIndex} className="scroll-group">
+              {images.map((src, index) => (
+                <img
+                  key={`${groupIndex}-${src}-${index}`}
+                  src={src}
+                  alt=""
+                  className="w-[72vw] max-w-[460px] sm:w-[54vw] sm:max-w-[620px] lg:w-[44vw] lg:max-w-[760px] object-cover select-none"
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
