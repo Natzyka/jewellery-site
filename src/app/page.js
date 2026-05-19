@@ -25,7 +25,7 @@ const IMAGE_LIST = [
   "/earring9.png",
   "/sculpture5.png",
   "/size.png",
-  "/devil4.png",
+  "/devillogo.png",
   "/size2.png",
   "/teeth22.png",
   "/earring12.png",
