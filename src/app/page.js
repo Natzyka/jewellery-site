@@ -68,8 +68,6 @@ const DEFAULT_VIEWPORT_LAYOUT = {
     "fixed bottom-12 left-1/2 z-30 -translate-x-1/2 border border-black bg-white px-4 py-1.5 text-[10px] tracking-[0.32em] text-black mix-blend-difference",
 };
 
-
-
 function wrap(value, min, max) {
   const range = max - min;
   if (range === 0) return min;
@@ -318,7 +316,6 @@ export default function Home() {
           bounds.width * 0.62,
           bounds.height * 0.62
         );
-
         node.style.transform = `
           translate3d(${wrappedX}px, ${wrappedY}px, 0)
           scale(${focus.scale})

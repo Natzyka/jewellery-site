@@ -9,17 +9,16 @@ export default function ScrollingImages() {
 
   const images = [
     "/sculpture5.png",
-    "/image45.webp",
     "/1.webp",
     "/image31.webp",
     "/2.webp",
-     "/image2.webp",
+    "/image2.webp",
     "/3.webp",
-     "/image36.webp",
+    "/image36.webp",
     "/image51.webp",
+    "/image45.webp",
     "/devil4.webp",
     "/4.webp",
-    "/5.webp",
     "/6.webp",
     "/devil4.webp",
     "/image44.webp",
@@ -28,34 +27,38 @@ export default function ScrollingImages() {
     "/image37.webp",
     "/7.webp",
     "/8.webp",
-    "/9.webp",
     "/devil2.webp",
-    "/image32.webp",
     "/image38.webp",
-    "/10.webp",
     "/11.webp",
     "/12.webp",
     "/13.webp",
     "/image33.webp",
-    "/image5.webp",
-    "/image42.webp",
-    "/image43.webp",
-    "/14.webp",
-    "/15.webp",
-    "/16.webp",
-     "/devil5.webp",
+    "/devil5.webp",
     "/image40.webp",
     "/image34.webp",
-    "/17.webp",
-    "/18.webp",
     "/devil6.webp",
-    "/image41.webp",
     "/19.webp",
     "/20.webp",
     "/21.webp",
     "/22.webp",
     "/23.webp",
-    
+    "/26.webp",
+    "/27.webp",
+    "/37.webp",
+    "/28.webp",
+    "/29.webp",
+    "/30.webp",
+    "/31.webp",
+    "/33.webp",
+    "/34.webp",
+    "/41.webp",
+    "/35.webp",
+    "/36.webp",
+    "/32.webp",
+    "/38.webp",
+    "/41.webp",
+    "/39.webp",
+    "/40.webp",
   ];
 
   useEffect(() => {
@@ -122,25 +125,6 @@ export default function ScrollingImages() {
         .scroll-images.scrolling img {
           filter: invert(1);
         }
-        .scroll-group {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 30px;
-          padding: 22px 0;
-        }
-        @media (min-width: 640px) {
-          .scroll-group {
-            gap: 42px;
-            padding: 30px 0;
-          }
-        }
-        @media (min-width: 1024px) {
-          .scroll-group {
-            gap: 56px;
-            padding: 40px 0;
-          }
-        }
       `}</style>
 
       <div
@@ -150,7 +134,10 @@ export default function ScrollingImages() {
       >
         <div className="scroll-track">
           {[0, 1].map((groupIndex) => (
-            <div key={groupIndex} className="scroll-group">
+            <div
+              key={groupIndex}
+              className="flex flex-col items-center gap-[30px] py-[22px] sm:gap-[42px] sm:py-[30px] lg:gap-[56px] lg:py-[40px]"
+            >
               {images.map((src, index) => (
                 <img
                   key={`${groupIndex}-${src}-${index}`}
