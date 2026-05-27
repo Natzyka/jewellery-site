@@ -43,16 +43,12 @@ export default function ScrollingImages() {
     "/13.webp",
     "/image33.webp",
     "/image40.webp",
+    "/devil5.webp",
     "/37.webp",
-    "/28.webp",
-    "/29.webp",
-    "/30.webp",
-    "/31.webp",
-    "/33.webp",
-    "/34.webp",
     "/41.webp",
     "/41.webp",
     "/39.webp",
+    "/devil6.webp",
     "/40.webp",
   ];
 
