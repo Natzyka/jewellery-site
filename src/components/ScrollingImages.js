@@ -8,7 +8,7 @@ export default function ScrollingImages() {
   const SCROLL_SPEED = 520;
 
   const images = [
-    "/sculpture5.png",
+    "/sculpture5.webp",
     "/1.webp",
     "/19.webp",
     "/20.webp",
