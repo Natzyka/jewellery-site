@@ -68,8 +68,8 @@ const STEP_Y = 176;
 const ROW_STAGGER = 34;
 const DIAGONAL_SHIFT = 0;
 const BASE_SIZE = 126;
-const DRIFT_X = 0.018;
-const DRIFT_Y = 0.012;
+const DRIFT_X = 0.03;
+const DRIFT_Y = 0.02;
 const DEFAULT_VIEWPORT_LAYOUT = {
   stageClass:
     "absolute left-1/2 top-1/2 h-[98vh] w-[98vw] max-w-[1720px] -translate-x-1/2 -translate-y-1/2",
