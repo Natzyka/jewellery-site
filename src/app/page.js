@@ -12,49 +12,62 @@ const cinzel = Cinzel({
 
 
 const IMAGE_LIST = [
-  "/size4.webp",
-  "/razor.webp",
+  "/pic/21.webp",
+  
   "/teeth1.webp",
-  "/pinterest2.webp",
-  "/snake1.webp",
-  "/earring14.webp",
-  "/teeth15.webp",
-  "/size3.webp",
+  
   "/earring17.webp",
-  "/teeth23.webp",
-  "/earring9.webp",
-  "/sculpture5.webp",
-  "/size.webp",
-  "/devillogo.webp",
-  "/size2.webp",
-  "/teeth22.webp",
-  "/earring12.webp",
-  "/earring3.webp",
-  "/pinterest6.webp",
-  "/size1.webp",
-  "/sculpture3.webp",
-  "/pinterest5.webp",
-  "/earring8.webp",
-  "/earring10.webp",
-  "/sculpture6.webp",
-  "/pinterest3.webp",
-  "/earring16.webp",
-  "/earring1.webp",
+  "/pic/22.webp",
   "/teeth20.webp",
-  "/sculpture4.webp",
-  "/teeth24.webp",
+  "/pic/5.webp",
+  "/teeth8.webp",
+  "/51.webp",
+  "/pic/13.webp",
+  
+  "/43.webp",
+  "/earring4.webp",
+  
+  "/42.webp",
+  "/47.webp",
+  "/pic/31.webp",
+  "/pic/4.webp",
+  "/earring16.webp",
+  "/pic/23.webp",
+  
+  "/pic/19.webp",
+  "/earring9.webp",
+  "/53.webp",
+  "/pic/18.webp",
+  "/52.webp",
+  "/pic/10.webp",
+  "/pill.webp",
+  "/earring12.webp",
+  "/pic/32.webp",
+  "/image.webp",
+  "/earring3.webp",
+  "/pic/12.webp",
+  "/devillogo.webp",
+  
+  "/doublering.webp",
+  "/pic/36.webp",
+  "/44.webp",
+  "/pic/20.webp",
   "/earring7.webp",
-  "/teeth21.webp",
-  "/gemrings.webp",
-  "/teeth18.webp"
+  "/somniteeth.webp",
+  "/pic/30.webp",
+  "/49.webp",
+  "/pic/33.webp",
+  "/45.webp",
+  "/pic/15.webp",
 ];
 
-const TOTAL_ROWS = 11;
-const TOTAL_COLUMNS = 11;
-const STEP_X = 408;
-const STEP_Y = 236;
-const ROW_STAGGER = 0;
-const BASE_SIZE = 112;
+const TOTAL_ROWS = 6;
+const TOTAL_COLUMNS = 7;
+const STEP_X = 246;
+const STEP_Y = 176;
+const ROW_STAGGER = 34;
+const DIAGONAL_SHIFT = 0;
+const BASE_SIZE = 126;
 const DRIFT_X = 0.018;
 const DRIFT_Y = 0.012;
 const DEFAULT_VIEWPORT_LAYOUT = {
@@ -63,6 +76,7 @@ const DEFAULT_VIEWPORT_LAYOUT = {
   stepX: STEP_X,
   stepY: STEP_Y,
   rowStagger: ROW_STAGGER,
+  diagonalShift: DIAGONAL_SHIFT,
   logoClass: "w-[min(58vw,520px)]",
   signupButtonClass:
     "fixed bottom-12 left-1/2 z-30 -translate-x-1/2 border border-black bg-white px-4 py-1.5 text-[10px] tracking-[0.32em] text-black mix-blend-difference",
@@ -79,15 +93,15 @@ function getCenterFocus(x, y, width, height) {
   const ny = y / (height / 2);
   const distance = Math.sqrt(nx * nx + ny * ny);
   const normalized = Math.min(distance, 1.02) / 1.02;
-  const falloff = Math.pow(Math.max(0, 1 - normalized), 0.42);
+  const falloff = Math.pow(Math.max(0, 1 - normalized), 0.68);
   const isDesktopViewport =
     typeof window !== "undefined" ? window.innerWidth > 900 : true;
-  const baseScale = isDesktopViewport ? 0.72 : 0.74;
-  const bulgeStrength = isDesktopViewport ? 1.34 : 1.08;
+  const baseScale = isDesktopViewport ? 0.95 : 0.96;
+  const bulgeStrength = isDesktopViewport ? 0.16 : 0.1;
 
   return {
     scale: baseScale + falloff * bulgeStrength,
-    opacity: 0.36 + falloff * 0.64,
+    opacity: 1,
   };
 }
 
@@ -98,17 +112,17 @@ function getItemSize(src, row, column) {
     src.includes("illustration");
   const isWideVisual =
     src.includes("gemrings") || src.includes("sculpture") || src.includes("snake");
-  const variance = ((row + column) % 2) * 8;
+  const variance = ((row + column) % 2) * 1;
 
   if (isFramedAsset) {
-    return BASE_SIZE - 2 + variance;
+    return BASE_SIZE - 6 + variance;
   }
 
   if (isWideVisual) {
-    return BASE_SIZE + 10 + variance;
+    return BASE_SIZE + 3 + variance;
   }
 
-  return BASE_SIZE + 2 + variance;
+  return BASE_SIZE + variance;
 }
 
 function getResponsiveScale() {
@@ -131,9 +145,10 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-[52%] h-[104svh] w-[112vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: 336,
-      stepY: 208,
-      rowStagger: 0,
+      stepX: 186,
+      stepY: 140,
+      rowStagger: 22,
+      diagonalShift: 0,
       logoClass: "w-[min(72vw,360px)]",
       signupButtonClass:
         "fixed bottom-8 left-1/2 z-30 -translate-x-1/2 border border-black bg-white px-5 py-2 text-[11px] tracking-[0.28em] text-black mix-blend-difference",
@@ -144,9 +159,10 @@ function getViewportLayout() {
     return {
       stageClass:
         "absolute left-1/2 top-1/2 h-[102vh] w-[104vw] max-w-none -translate-x-1/2 -translate-y-1/2",
-      stepX: 364,
-      stepY: 224,
-      rowStagger: 0,
+      stepX: 214,
+      stepY: 154,
+      rowStagger: 26,
+      diagonalShift: 0,
       logoClass: "w-[min(64vw,440px)]",
       signupButtonClass:
         "fixed bottom-10 left-1/2 z-30 -translate-x-1/2 border border-black bg-white px-4 py-1.5 text-[10px] tracking-[0.3em] text-black mix-blend-difference",
@@ -262,7 +278,9 @@ export default function Home() {
     if (!stage || items.length === 0) return;
 
     const bounds = {
-      width: TOTAL_COLUMNS * viewportLayout.stepX + viewportLayout.rowStagger * 2,
+      width:
+        TOTAL_COLUMNS * viewportLayout.stepX +
+        viewportLayout.rowStagger * 2,
       height: TOTAL_ROWS * viewportLayout.stepY + viewportLayout.stepY,
     };
 
@@ -295,7 +313,8 @@ export default function Home() {
 
         const baseX =
           item.column * viewportLayout.stepX +
-          (item.row % 2 === 0 ? -viewportLayout.rowStagger : viewportLayout.rowStagger);
+          item.row * viewportLayout.diagonalShift +
+          (item.row % 2 === 0 ? 0 : viewportLayout.rowStagger);
         const baseY = item.row * viewportLayout.stepY;
         const centeredBaseX = baseX - bounds.width / 2;
         const centeredBaseY = baseY - bounds.height / 2;

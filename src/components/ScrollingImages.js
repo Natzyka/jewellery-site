@@ -5,11 +5,11 @@ import { useEffect, useRef, useState } from "react";
 export default function ScrollingImages() {
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollingStateRef = useRef(false);
+  const settleTimeoutRef = useRef(null);
   const SCROLL_SPEED = 520;
 
   const images = [
     "/sculpture5.webp",
-    "/1.webp",
     "/19.webp",
     "/20.webp",
     "/21.webp",
@@ -17,73 +17,62 @@ export default function ScrollingImages() {
     "/22.webp",
     "/23.webp",
     "/26.webp",
-    "/image31.webp",
     "/devil2.webp",
-    "/2.webp",
-    "/image2.webp",
+    "/scroll/4037.webp",
+    "/scroll/406.webp",
     "/3.webp",
-    "/image36.webp",
+    "/12.webp",
     "/devil5.webp",
-    "/image51.webp",
-    "/image45.webp",
-    "/4.webp",
-    "/6.webp",
+    "/scroll/403.webp",
+    "/scroll/4018.webp",
+    "/scroll/4011.webp",
+    "/scroll/4015.webp",
     "/devil6.webp",
     "/image22.webp",
-    "/image3.webp",
-    "/image37.webp",
-    "/7.webp",
+    "/scroll/4019.webp",
+    "/scroll/4032.webp",
+    "/scroll/4040.webp",
     "/devil4.webp",
-    "/8.webp",
-    "/27.webp",
-    "/image38.webp",
-    "/11.webp",
-    "/devil2.webp",
-    "/12.webp",
-    "/13.webp",
+    "/scroll/401.webp",
+    "/scroll/4026.webp",
     "/image33.webp",
     "/image40.webp",
-    "/devil5.webp",
-    "/37.webp",
-    "/41.webp",
-    "/41.webp",
-    "/39.webp",
+    "/devil2.webp",
+    "/scroll/408.webp",
+    "/scroll/4025.webp",
+    "/scroll/4039.webp",
+    "/scroll/4012.webp",
     "/devil6.webp",
-    "/40.webp",
+    "/scroll/4020.webp",
   ];
 
   useEffect(() => {
-    let animationFrame = null;
-    let previousY = window.scrollY;
-    let lastMovementAt = performance.now();
-
     const setScrollingState = (nextState) => {
       if (scrollingStateRef.current === nextState) return;
       scrollingStateRef.current = nextState;
       setIsScrolling(nextState);
     };
 
-    const monitorScrollMotion = () => {
-      const currentY = window.scrollY;
-      const now = performance.now();
-      const delta = Math.abs(currentY - previousY);
+    const handleScroll = () => {
+      setScrollingState(true);
 
-      if (delta > 0.08) {
-        lastMovementAt = now;
-        setScrollingState(true);
-      } else if (scrollingStateRef.current && now - lastMovementAt > 180) {
-        setScrollingState(false);
+      if (settleTimeoutRef.current) {
+        window.clearTimeout(settleTimeoutRef.current);
       }
 
-      previousY = currentY;
-      animationFrame = window.requestAnimationFrame(monitorScrollMotion);
+      settleTimeoutRef.current = window.setTimeout(() => {
+        setScrollingState(false);
+        settleTimeoutRef.current = null;
+      }, 140);
     };
 
-    animationFrame = window.requestAnimationFrame(monitorScrollMotion);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      if (animationFrame) {
-        window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", handleScroll);
+      if (settleTimeoutRef.current) {
+        window.clearTimeout(settleTimeoutRef.current);
+        settleTimeoutRef.current = null;
       }
     };
   }, []);
