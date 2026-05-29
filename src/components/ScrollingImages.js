@@ -123,7 +123,7 @@ export default function ScrollingImages() {
                   key={`${groupIndex}-${src}-${index}`}
                   src={src}
                   alt=""
-                  className="w-[72vw] max-w-[460px] sm:w-[54vw] sm:max-w-[620px] lg:w-[44vw] lg:max-w-[760px] object-cover select-none"
+                  className="w-[62vw] max-w-[380px] sm:w-[46vw] sm:max-w-[520px] lg:w-[38vw] lg:max-w-[640px] object-cover select-none"
                 />
               ))}
             </div>
