@@ -6,7 +6,7 @@ export default function ScrollingImages() {
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollingStateRef = useRef(false);
   const settleTimeoutRef = useRef(null);
-  const SCROLL_SPEED = 340;
+  const SCROLL_SPEED = 150;
 
   const images = [
     "/sculpture5.webp",
