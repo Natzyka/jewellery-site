@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function ScrollingImages() {
+export default function ScrollingImages({ onScrollStateChange }) {
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollingStateRef = useRef(false);
   const settleTimeoutRef = useRef(null);
@@ -51,6 +51,7 @@ export default function ScrollingImages() {
       if (scrollingStateRef.current === nextState) return;
       scrollingStateRef.current = nextState;
       setIsScrolling(nextState);
+      onScrollStateChange?.(nextState);
     };
 
     const handleScroll = () => {
@@ -75,7 +76,7 @@ export default function ScrollingImages() {
         settleTimeoutRef.current = null;
       }
     };
-  }, []);
+  }, [onScrollStateChange]);
 
   return (
     <>

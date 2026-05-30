@@ -265,13 +265,18 @@ export default function LandingPage() {
 
   const [panelOpen, setPanelOpen] = useState(false);
   const [artistsOpen, setArtistsOpen] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   
 
   return (
     <>
   <SmoothScroll />
     
-    <main className="relative min-h-screen w-screen overflow-x-hidden bg-[#f5f4f0] text-black">
+    <main
+      className={`relative min-h-screen w-screen overflow-x-hidden transition-colors duration-300 ${
+        isScrolling ? "bg-black text-white" : "bg-[#f5f4f0] text-black"
+      }`}
+    >
 
       {/* LEFT LOGO */}
 <div
@@ -288,7 +293,7 @@ export default function LandingPage() {
  "
 >
   <img
-    src="/logo-black.png"
+    src={isScrolling ? "/logo-white.png" : "/logo-black.png"}
     alt="Studio Somniferia"
     className="
       w-[220px]
@@ -307,7 +312,7 @@ export default function LandingPage() {
   z-20
   -translate-y-1/2
   text-right
-  text-black
+  ${isScrolling ? "text-white" : "text-black"}
   max-[720px]:right-[16px]
   max-[720px]:top-1/2
   max-[720px]:w-[150px]
@@ -358,7 +363,7 @@ max-[720px]:landscape:text-[8.5px]
 
       {/* CENTER VISUAL */}
      {/* SCROLLING IMAGE COLUMN */}
-<ScrollingImages />
+<ScrollingImages onScrollStateChange={setIsScrolling} />
 
       {/* BOTTOM LEFT */}
       <button
