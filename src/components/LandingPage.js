@@ -266,6 +266,75 @@ export default function LandingPage() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [artistsOpen, setArtistsOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formMessage, setFormMessage] = useState({
+    type: "",
+    text: "",
+  });
+
+  const handleSubscribe = async (event) => {
+    event.preventDefault();
+
+    if (!email.trim()) {
+      setFormMessage({
+        type: "error",
+        text: "Please enter your email address.",
+      });
+      return;
+    }
+
+    if (!consent) {
+      setFormMessage({
+        type: "error",
+        text: "Please agree to receive marketing emails before subscribing.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFormMessage({
+      type: "",
+      text: "",
+    });
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          consent: true,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
+      setFormMessage({
+        type: "success",
+        text: "You're subscribed. Keep an eye on your inbox.",
+      });
+      setEmail("");
+      setConsent(false);
+    } catch (error) {
+      setFormMessage({
+        type: "error",
+        text:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   
 
   return (
@@ -433,20 +502,49 @@ max-[720px]:text-[9px]
             <span className="italic">STUDIO</span> NEWS.
           </h2>
 
-          <form className="mt-14 flex flex-col">
+          <form className="mt-14 flex flex-col" onSubmit={handleSubscribe}>
 
             <input
               type="email"
               placeholder="Your email address"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               className="border-b border-black bg-transparent pb-4 text-center text-[16px] outline-none placeholder:text-[#888]"
             />
 
             <button
               type="submit"
+              disabled={isSubmitting}
               className="mt-6 bg-black py-4 text-[11px] tracking-[0.24em] text-white transition-colors duration-300 hover:bg-white hover:text-black border border-black"
             >
-              SUBSCRIBE
+              {isSubmitting ? "SUBSCRIBING..." : "SUBSCRIBE"}
             </button>
+
+            <label className="mt-6 flex items-start gap-3 text-[12px] leading-6 text-black sm:gap-4 sm:text-[14px] sm:leading-7">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(event) => setConsent(event.target.checked)}
+                className="mt-1 h-4 w-4 appearance-none rounded-[2px] border border-black bg-white checked:bg-black sm:h-5 sm:w-5"
+              />
+              <span>
+                I agree to receive marketing emails from Studio Somniferia.
+                You can unsubscribe at any time. View our{" "}
+                <a href="#" className="underline underline-offset-2">
+                  Privacy Policy.
+                </a>
+              </span>
+            </label>
+
+            {formMessage.text ? (
+              <p
+                className={`mt-4 text-center text-[12px] leading-5 sm:text-[13px] ${
+                  formMessage.type === "error" ? "text-[#b42318]" : "text-[#155724]"
+                }`}
+              >
+                {formMessage.text}
+              </p>
+            ) : null}
 
           </form>
 
