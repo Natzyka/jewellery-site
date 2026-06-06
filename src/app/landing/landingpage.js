@@ -372,64 +372,6 @@ export default function LandingPage() {
   />
 </div>
 
-      {/* RIGHT INFO */}
-      <div
-  className={`
-  fixed
-  right-[20px]
-  top-1/2
-  z-20
-  -translate-y-1/2
-  text-right
-  ${isScrolling ? "text-white" : "text-black"}
-  max-[720px]:right-[16px]
-  max-[720px]:top-1/2
-  max-[720px]:w-[150px]
-  max-[720px]:translate-y-[-50%]
-  max-[720px]:text-right
-  max-[720px]:landscape:right-[18px]
-  max-[720px]:landscape:w-[170px]
-`}
->
-
-        <h2
-className="
-text-[22px]
-font-black
-uppercase
-tracking-[0.02em]
-
-max-[720px]:text-[14px]
-max-[720px]:landscape:text-[15px]
-"
->
-          Cannes Lions
-        </h2>
-
-        <div
-className="
-mt-7
-text-[10px]
-tracking-[0.18em]
-leading-[1.9]
-uppercase
-
-max-[720px]:text-[8px]
-max-[720px]:leading-[1.65]
-max-[720px]:landscape:text-[8.5px]
-"
->
-          Pinterest
-          <br />
-          Carlton Beach Club
-          <br />
-          22-26th June 2026
-          <br />
-          
-        </div>
-
-      </div>
-
       {/* CENTER VISUAL */}
      {/* SCROLLING IMAGE COLUMN */}
 <ScrollingImages onScrollStateChange={setIsScrolling} />
