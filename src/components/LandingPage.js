@@ -22,7 +22,7 @@ const ARTISTS_PANEL_LINES = [
   "And object-making",
   "Personalised works",
   "Artist collaborations",
-  "Workshops in Paris",
+  "Workshops in London",
   "Experimentation",
   "And self-expression",
 ];

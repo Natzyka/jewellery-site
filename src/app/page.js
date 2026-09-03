@@ -550,7 +550,7 @@ export default function Home() {
   onClick={() => router.push("/landing")}
   className={viewportLayout.signupButtonClass}
 >
-  ENTER
+  SIGN UP
 </button>
 
       <div

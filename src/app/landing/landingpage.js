@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Cinzel } from "next/font/google";
+import Link from "next/link";
 import SmoothScroll from "../../components/SmoothScroll";
 import ScrollingImages from "../../components/ScrollingImages";
 
@@ -22,7 +23,7 @@ const ARTISTS_PANEL_LINES = [
   "And object-making",
   "Personalised works",
   "Artist collaborations",
-  "Workshops in Paris",
+  "Workshops in London",
   "Experimentation",
   "And self-expression",
 ];
@@ -377,12 +378,12 @@ export default function LandingPage() {
 <ScrollingImages onScrollStateChange={setIsScrolling} />
 
       {/* BOTTOM LEFT */}
-      <button
-        onClick={() => setPanelOpen(true)}
+      <Link
+        href="/site"
         className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-[16px] z-30 border border-black bg-black px-4 py-3 text-[10px] tracking-[0.25em] text-white transition-colors duration-300 hover:bg-white hover:text-black sm:bottom-[20px] sm:left-[20px] sm:py-2"
       >
         SIGN UP
-      </button>
+      </Link>
 
       {/* BOTTOM RIGHT */}
       <button
